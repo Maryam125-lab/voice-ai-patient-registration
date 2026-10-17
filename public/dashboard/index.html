@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Patient registrations and Voice AI call activity" />
+    <title>Ava Intake Console</title>
+    <link rel="stylesheet" href="/dashboard/styles.css" />
+    <script src="/dashboard/app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <div>
+            <p class="eyebrow">Voice AI operations</p>
+            <h1>Ava Intake Console</h1>
+          </div>
+        </div>
+        <div class="status-pill"><span class="status-dot"></span>Live system</div>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="overview-heading">
+          <div>
+            <p class="eyebrow">Patient registration</p>
+            <h2 id="overview-heading">A clear view of every intake.</h2>
+            <p>Review patient records, search demographics, and inspect the conversation behind each registration.</p>
+          </div>
+          <button id="refreshButton" class="primary-button" type="button">Refresh data</button>
+        </section>
+
+        <section class="metrics" aria-label="System overview">
+          <article class="metric-card accent-blue">
+            <span>Patients loaded</span>
+            <strong id="patientCount">-</strong>
+            <small>Active registrations</small>
+          </article>
+          <article class="metric-card accent-violet">
+            <span>With insurance</span>
+            <strong id="insuredCount">-</strong>
+            <small>Optional data supplied</small>
+          </article>
+          <article class="metric-card accent-green">
+            <span>Recent calls</span>
+            <strong id="callCount">-</strong>
+            <small>Completed and abandoned</small>
+          </article>
+          <article class="metric-card accent-amber">
+            <span>Last synchronized</span>
+            <strong id="lastSync">-</strong>
+            <small>Auto-refreshes every 10 seconds</small>
+          </article>
+        </section>
+
+        <section class="panel" aria-labelledby="patients-heading">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Registry</p>
+              <h2 id="patients-heading">Patients</h2>
+            </div>
+            <form id="filterForm" class="filters">
+              <label>
+                <span>Last name</span>
+                <input id="lastNameFilter" name="last_name" type="search" placeholder="e.g. Doe" autocomplete="off" />
+              </label>
+              <label>
+                <span>Date of birth</span>
+                <input id="dobFilter" name="date_of_birth" type="text" placeholder="MM/DD/YYYY" inputmode="numeric" />
+              </label>
+              <label>
+                <span>Phone</span>
+                <input id="phoneFilter" name="phone_number" type="search" placeholder="10-digit phone" inputmode="tel" />
+              </label>
+              <button class="secondary-button" type="submit">Apply filters</button>
+              <button id="clearFilters" class="ghost-button" type="button">Clear</button>
+            </form>
+          </div>
+
+          <div id="message" class="message" role="status" aria-live="polite"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Date of birth</th>
+                  <th>Sex</th>
+                  <th>Phone</th>
+                  <th>Location</th>
+                  <th>Insurance</th>
+                  <th>Registered</th>
+                </tr>
+              </thead>
+              <tbody id="patientRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="patientDialog" aria-labelledby="dialogTitle">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">Patient record</p>
+          <h2 id="dialogTitle">Patient details</h2>
+        </div>
+        <button id="closeDialog" class="icon-button" type="button" aria-label="Close patient details">×</button>
+      </div>
+      <div id="patientDetails" class="details-grid"></div>
+      <section class="call-section" aria-labelledby="callHistoryTitle">
+        <div class="section-title-row">
+          <h3 id="callHistoryTitle">Call history</h3>
+          <span id="patientCallCount" class="count-badge">0</span>
+        </div>
+        <div id="callHistory" class="call-list"></div>
+      </section>
+    </dialog>
+  </body>
+</html>
