@@ -10,8 +10,16 @@ let client: DatabaseClient | undefined;
 
 function createProductionPool(): DatabaseClient {
   const isServerless = Boolean(process.env.VERCEL);
+  const connectionUrl = new URL(config.databaseUrl);
+
+  // node-postgres lets SSL query parameters in the connection string replace
+  // the explicit ssl object. Supabase pooler URLs commonly include
+  // `sslmode=require`, so remove it and keep the intended serverless TLS
+  // policy below.
+  connectionUrl.searchParams.delete("sslmode");
+
   return new Pool({
-    connectionString: config.databaseUrl,
+    connectionString: connectionUrl.toString(),
     ssl: config.nodeEnv === "production" ? { rejectUnauthorized: false } : undefined,
     // Supabase recommends one application-side connection per warm
     // serverless instance when using its transaction pooler.
