@@ -66,3 +66,9 @@ CREATE INDEX IF NOT EXISTS idx_call_logs_patient
   ON call_logs(patient_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_call_logs_created
   ON call_logs(created_at DESC);
+
+-- The application connects directly through PostgreSQL. Keep these tables
+-- inaccessible through Supabase's public Data API.
+ALTER TABLE patients ENABLE ROW LEVEL SECURITY;
+ALTER TABLE call_logs ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE patients, call_logs FROM anon, authenticated;
