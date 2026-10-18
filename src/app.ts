@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import helmet from "helmet";
+import * as helmet from "helmet";
 import { join } from "node:path";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 import { callsRouter } from "./routes/calls.js";
@@ -13,7 +13,7 @@ export function createApp() {
   const dashboardPath = join(process.cwd(), "public", "dashboard");
 
   app.disable("x-powered-by");
-  app.use(helmet());
+  app.use(helmet.default());
   app.use(cors({ origin: false }));
   app.use(express.json({ limit: "100kb" }));
   app.get("/dashboard", (_request, response) => response.sendFile(join(dashboardPath, "index.html")));
