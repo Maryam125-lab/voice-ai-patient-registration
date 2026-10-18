@@ -4,14 +4,12 @@ A deployable take-home assessment that lets a reviewer call a real U.S. number, 
 
 ## Live demo
 
-Fill these values after deployment:
-
 | Resource | URL or value |
 |---|---|
-| U.S. phone number | `+1 XXX XXX XXXX` |
-| API base URL | `https://YOUR-APP.vercel.app` |
-| Dashboard | `https://YOUR-APP.vercel.app/dashboard` |
-| Health check | `https://YOUR-APP.vercel.app/health` |
+| U.S. phone number | `+1 (256) 939-1077` (inbound) |
+| API base URL | <https://voice-ai-patient-registration-black.vercel.app> |
+| Dashboard | <https://voice-ai-patient-registration-black.vercel.app/dashboard> |
+| Health check | <https://voice-ai-patient-registration-black.vercel.app/health> |
 
 Use fake data only. This assessment system is not HIPAA compliant and must not receive real patient information.
 
@@ -204,7 +202,8 @@ Tests use an isolated pg-mem PostgreSQL-compatible database. They cover validato
 - The call-to-patient link is held in memory during the live call. A server restart between save and end-of-call report can leave that report unlinked, although the patient remains saved.
 - The Vapi dashboard and API evolve. `tools.json` follows the October 2026 saved-credential format; verify the model and UI labels when configuring the account.
 - pg-mem tests exercise the application contract but do not replace one smoke test against real PostgreSQL after deployment.
-- Vapi, Vercel, and Supabase resources, a real U.S. number, and final phone-call testing require the candidate's accounts.
+- The live Vapi number is inbound-only on the free plan. Vapi usage consumes the account's included credits; no payment method was added.
+- Ava v3, four webhook tools, the end-call tool, Supabase database, Vercel deployment, and U.S. number are live. A final human voice call is still recommended before submission because microphone/audio behavior cannot be fully covered by automated tests.
 
 ## Next steps
 
