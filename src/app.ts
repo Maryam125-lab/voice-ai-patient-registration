@@ -29,3 +29,8 @@ export function createApp() {
 
   return app;
 }
+
+// Vercel's Express preset discovers src/app.ts as the serverless entrypoint
+// and requires a default function export. Local execution continues to use
+// createApp() from src/index.ts.
+export default createApp();
