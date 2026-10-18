@@ -9,10 +9,13 @@ export interface DatabaseClient {
 let client: DatabaseClient | undefined;
 
 function createProductionPool(): DatabaseClient {
+  const isServerless = Boolean(process.env.VERCEL);
   return new Pool({
     connectionString: config.databaseUrl,
     ssl: config.nodeEnv === "production" ? { rejectUnauthorized: false } : undefined,
-    max: 10,
+    // Supabase recommends one application-side connection per warm
+    // serverless instance when using its transaction pooler.
+    max: isServerless ? 1 : 10,
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 5_000,
   });
