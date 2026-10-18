@@ -9,9 +9,9 @@ Fill these values after deployment:
 | Resource | URL or value |
 |---|---|
 | U.S. phone number | `+1 XXX XXX XXXX` |
-| API base URL | `https://YOUR-APP.up.railway.app` |
-| Dashboard | `https://YOUR-APP.up.railway.app/dashboard` |
-| Health check | `https://YOUR-APP.up.railway.app/health` |
+| API base URL | `https://YOUR-APP.vercel.app` |
+| Dashboard | `https://YOUR-APP.vercel.app/dashboard` |
+| Health check | `https://YOUR-APP.vercel.app/health` |
 
 Use fake data only. This assessment system is not HIPAA compliant and must not receive real patient information.
 
@@ -26,7 +26,7 @@ Use fake data only. This assessment system is not HIPAA compliant and must not r
 - Responsive, no-build dashboard with filters, 10-second refresh, details, transcripts, and summaries
 - Structured JSON logging and forced database-failure simulation
 - Vitest, Supertest, and pg-mem test suite
-- Railway and Docker deployment files
+- Vercel serverless deployment configuration and Docker support
 
 ## Architecture
 
@@ -78,7 +78,7 @@ npm run dev:memory
 ```
 
 This temporary database is preloaded with two fake patients and resets whenever
-the process stops. Railway and other production deployments still require PostgreSQL.
+the process stops. Vercel and other production deployments still require PostgreSQL.
 
 Open:
 
@@ -204,7 +204,7 @@ Tests use an isolated pg-mem PostgreSQL-compatible database. They cover validato
 - The call-to-patient link is held in memory during the live call. A server restart between save and end-of-call report can leave that report unlinked, although the patient remains saved.
 - The Vapi dashboard and API evolve. `tools.json` follows the October 2026 saved-credential format; verify the model and UI labels when configuring the account.
 - pg-mem tests exercise the application contract but do not replace one smoke test against real PostgreSQL after deployment.
-- Vapi and Railway resources, a real U.S. number, and final phone-call testing require the candidate's accounts.
+- Vapi, Vercel, and Supabase resources, a real U.S. number, and final phone-call testing require the candidate's accounts.
 
 ## Next steps
 
