@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
-import * as helmet from "helmet";
+import type { RequestHandler } from "express";
+import * as helmetModule from "helmet";
 import { join } from "node:path";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 import { callsRouter } from "./routes/calls.js";
@@ -11,9 +12,10 @@ import { vapiRouter } from "./routes/vapi.js";
 export function createApp() {
   const app = express();
   const dashboardPath = join(process.cwd(), "public", "dashboard");
+  const helmet = helmetModule.default as unknown as () => RequestHandler;
 
   app.disable("x-powered-by");
-  app.use(helmet.default());
+  app.use(helmet());
   app.use(cors({ origin: false }));
   app.use(express.json({ limit: "100kb" }));
   app.get("/dashboard", (_request, response) => response.sendFile(join(dashboardPath, "index.html")));
